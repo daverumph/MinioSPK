@@ -39,9 +39,13 @@ You will need:
 * Git
 * A Synology NAS
 
+Docker is used to as the build system and to manage dependencies, specifically:
+* Artwork is fetched remotely. This requires tooling to get the artwork, unzip to extract it and ImageMagick to transform the icon sizes.
+* The building of Minio is done in a Debian Stretch Golang container. This was done to make the packaging more accessible to people who just want an `spk` but don't want to setup Go.
+
 After cloning/forking this repo:
 * run `make init`. This step fetches the latest release of Minio and the icons.
-* run `make`
+* run `make`. During this step, a docker container will cross compile Minio. It will take a bit.
 * Go to your NAS's package manager
 * Click Manually uplaod
 * Follow the dialogs
