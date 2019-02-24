@@ -1,3 +1,0 @@
-[submodule "go/src/github.com/minio/minio"]
-	path = go/src/github.com/minio/minio
-	url = https://github.com/minio/minio

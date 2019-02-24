@@ -2,3 +2,5 @@
 **/*.tgz
 **/.DS_Store
 1_create_package/minio/minio
+go/**
+minio*linux*arm
