@@ -24,7 +24,7 @@ Removing the Minio installation from the NAS will result in your data being dele
 
 THIS ONLY WORKS FOR ARM-7 NAS's right now.
 
-Due to the inclusion of Minio's Art Work, re-distribution of the SPK may violate their terms. Please see LICENSE-Artwork for more information.
+Due to the inclusion of Minio's Art Work, re-distribution of the SPK may violate their terms. Please see LICENSE-Artwork for more information..
 
 Credit where Credit is Due
 ===
@@ -40,6 +40,7 @@ You will need:
 * A Synology NAS
 
 After cloning/forking this repo:
+* run `make init`. This step fetches the latest release of Minio and the icons.
 * run `make`
 * Go to your NAS's package manager
 * Click Manually uplaod

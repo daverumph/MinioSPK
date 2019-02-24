@@ -1,10 +1,8 @@
-The icons were obtained from: https://www.minio.io/logo.html
+During the init step, the Artwork/Icons are fetched remotely and made suitable for
+packaging by a Docker container. See the Make target for `artwork`.
 
-As of 2019.02.24, it is believed that the use of the the logo meets the terms
-of use.
-
-All `png` files included in this repo are the intellectual property of Minio,
-and are subject to the Minio terms of use:
+Please note: the redistribution of resulting package is subject Minio's License AND
+their trademark policy, to whit:
 
    MINIO®, the MINIO® logo design (bird) and the MINIO wordmark design are exclusive
    trademarks registered by Minio, Inc. For more information regarding the authorized
@@ -13,3 +11,5 @@ and are subject to the Minio terms of use:
    No adaptation or use of any kind of any of our registered trademarks or copyrights,
    or any other contents of this website, is allowed without the express written
    permission of Minio, Inc.
+
+Please see https://www.minio.io/logo.html
