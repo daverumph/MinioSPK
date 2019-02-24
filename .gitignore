@@ -1,6 +1,7 @@
-2_create_project/INFO
+**/*.png
 **/*.tgz
 **/.DS_Store
 1_create_package/minio/minio
+2_create_project/INFO
 go/**
 minio*linux*arm
