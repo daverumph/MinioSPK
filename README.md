@@ -24,6 +24,8 @@ Removing the Minio installation from the NAS will result in your data being dele
 
 THIS ONLY WORKS FOR ARM-7 NAS's right now.
 
+Due to the inclusion of Minio's Art Work, re-distribution of the SPK may violate their terms. Please see LICENSE-Artwork for more information.
+
 Credit where Credit is Due
 ===
 
@@ -33,8 +35,9 @@ Getting Started
 ===
 
 You will need:
-* Golang
-* A Nas
+* Docker
+* Git
+* A Synology NAS
 
 After cloning/forking this repo:
 * run `make`

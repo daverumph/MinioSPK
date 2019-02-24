@@ -9,19 +9,19 @@ build: clean init minio_arm_7 pkg_7
 
 .PHONY: clean
 clean:
-	@rm -rf .git/modules
+	@rm -rf .git/modules .gitmodules
 	@find . -type f -iname "*.tgz" -exec rm -rvf {} \;
 	@find . -type f -iname "*.spk" -exec rm -rvf {} \;
 	@rm -rf go minio*linux*
 
 .PHONY: init
 init:
-	git submodule update --init
+	git clone https://github.com/minio/minio $(minio_src)
 	cd $(minio_src) && \
 		last_release=$$(git tag | sort -r | gawk '/RELEASE/{print$$1; exit;}') && \
-	       	git checkout --force -b working ${last_release}
+		git checkout --force -b working $${last_release}
 
-last_release := $(shell cd $(minio_src) && git tag | sort -r | gawk '/RELEASE/{print$$1; exit;}')
+last_release := $(shell cd $(minio_src) 2>&1 /dev/null && git tag | sort -r | gawk '/RELEASE/{print$$1; exit;}' || echo unknown)
 date_release := $(shell echo $(last_release) | awk -F'T' '{gsub("RELEASE-", "", $$1); gsub("-",".", $$1); print$$1}')
 pkg_version := $(subst RELEASE.,,$(date_release))
 
@@ -30,16 +30,19 @@ info:
 	@echo "$(last_release) $(pkg_version)"
 
 .PHONY: minio_arm_%
+_docker_cmd = docker run --rm -it -v $(my_d)/$(minio_src):/$(minio_src) -v $(my_d):/out --workdir=/$(minio_src)
+_docker_ctr = golang:stretch
+minio_arm_%: LDFLAGS=$(shell $(_docker_cmd) $(_docker_ctr) bash -c "go run buildscripts/gen-ldflags.go")
 minio_arm_%:
 	@echo "Working on $(last_release)"
-	cd $(minio_src) && env \
-	    CGO_ENABLED=0 \
-	    GOOS="linux" \
-	    GOARCH=arm \
-	    GOARM=$*\
-	    go build -tags kqeue \
-	    	--ldflags '$(shell cd $(minio_src); go run buildscripts/gen-ldflags.go)' \
-		-o $(my_d)/minio-$(pkg_version)-linux-arm-$*
+	@echo "Cross-compiling in Docker, this will take a few minutes"
+	$(_docker_cmd) \
+		--env CGO_ENABLED=0 \
+		--env GOOS="linux" \
+		--env GOARCH=arm \
+		--env GOARM=$*\
+		$(_docker_ctr) \
+		go build -tags kqeue --ldflags '$(LDFLAGS)' -o /out/minio-$(pkg_version)-linux-arm-$*
 
 .PHONY: pkg_%
 pkg_%:
