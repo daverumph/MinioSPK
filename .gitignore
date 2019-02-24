@@ -1,0 +1,4 @@
+2_create_project/INFO
+**/*.tgz
+**/.DS_Store
+1_create_package/minio/minio

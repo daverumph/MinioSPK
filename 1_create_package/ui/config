@@ -1,0 +1,15 @@
+{
+    ".url": {
+        "io.minio": {
+            "type": "url",
+            "allUsers": true,
+            "title": "minio",
+            "desc": "minio - private cloud storage",
+            "icon": "minio-{0}.png",
+            "protocol": "http",
+            "url": "/",
+            "port": "9901", 
+            "grantPrivilege": "local"
+        }
+    }
+}

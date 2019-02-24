@@ -1,0 +1,43 @@
+[
+  {
+    "step_title": "Minio configuration: Logging",
+    "items": [
+         {
+		"type": "textfield",
+		"desc": "Access Credentials",
+		"subitems": [
+		  {
+		    "key": "MINIO_PORT",
+		    "desc": "which port should minio listen on, default is 9000",
+		    "defaultVaule": "9000",
+		    "validator": {
+		      "allowBlank": false,
+		      "minLength": 4,
+		      "maxLength": 4
+		    }
+          },
+          {
+            "key": "MINIO_ACCESS_KEY",
+            "desc": "the MINIO_ADMIN_KEY value",
+            "defaultVaule": "admin",
+            "validator": {
+              "allowBlank": false,
+              "minLength": 2,
+              "maxLength": 10
+            }
+          },
+          {
+            "key": "MINIO_SECRET_KEY",
+            "desc": "the MINIO_SECRET_KEY value",
+            "defaultVaule": "",
+            "validator": {
+              "allowBlank": false,
+              "minLength": 8,
+              "maxLength": 32
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
