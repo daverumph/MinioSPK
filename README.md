@@ -7,9 +7,9 @@ What this is
 ===
 
 Minio offers a wide-variety of features. This repo only exposes enough of Minio to get started. That is:
-* fetch and build Minio for the Synology ARM platform
+* fetch and build Minio for the Synology ARM or i386-platform
 * package Minio in a SPK format
-* Targets for ARM based Synology
+* Targets for ARM or i386-based Synology
 
 Minio has elected to support Synology NAS's through [Docker Containers](https://github.com/minio/minio/issues/4210). In my opinion, targeting Docker is the correct decision for Cloud-base storage. However, if you have a consumer-grade Synology NAS, using Docker is a non-starter: I hope that this side-project will help close the gap.
 
@@ -22,7 +22,7 @@ Here Be Dragons
 
 Removing the Minio installation from the NAS will result in your data being deleted.
 
-THIS ONLY WORKS FOR ARM-7 NAS's right now.
+THIS ONLY WORKS FOR ARM-7 or i386 NAS's right now.
 
 Due to the inclusion of Minio's Art Work, re-distribution of the SPK may violate their terms. Please see LICENSE-Artwork for more information..
 
@@ -45,7 +45,7 @@ Docker is used to as the build system and to manage dependencies, specifically:
 
 After cloning/forking this repo:
 * run `make init`. This step fetches the latest release of Minio and the icons.
-* run `make`. During this step, a docker container will cross compile Minio. It will take a bit.
+* run `make arm7` or `make i386`. During this step, a docker container will cross compile Minio. It will take a bit.
 * Go to your NAS's package manager
 * Click Manually uplaod
 * Follow the dialogs
