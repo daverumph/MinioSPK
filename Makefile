@@ -4,8 +4,12 @@ GOARM = 7
 my_d = $(shell pwd -P)
 minio_src := go/src/github.com/minio/minio
 
-.PHONY: build
-build: minio_arm_7 pkg_7
+.PHONY: build i386 arm7
+build:
+	@echo "Usage: make init; make arm7|i386"
+
+arm7: minio_arm7 pkg_arm7
+i386: minio_i386 pkg_i386
 
 .PHONY: clean
 clean:
@@ -46,29 +50,42 @@ pkg_version := $(subst RELEASE.,,$(date_release))
 info:
 	@echo "$(last_release) $(pkg_version)"
 
-.PHONY: minio_arm_%
+.PHONY: minio minio_%
 _docker_cmd = docker run --rm -it -v $(my_d)/$(minio_src):/$(minio_src) -v $(my_d):/out --workdir=/$(minio_src)
 _docker_ctr = golang:stretch
-minio_arm_%: LDFLAGS=$(shell $(_docker_cmd) $(_docker_ctr) bash -c "go run buildscripts/gen-ldflags.go")
-minio_arm_%:
+minio_arm7: go_env=--env GOARCH=arm --env GOARM=7
+minio_arm7: pkg_arch=arm-7
+minio_arm7: minio
+minio_i386: go_env=--env GOARCH=386
+minio_i386: pkg_arch=i386
+minio_i386: minio
+
+minio: LDFLAGS=$(shell $(_docker_cmd) $(_docker_ctr) bash -c "go run buildscripts/gen-ldflags.go")
+minio:
 	@echo "Working on $(last_release)"
 	@echo "Cross-compiling in Docker, this will take a few minutes"
 	$(_docker_cmd) \
 		--env CGO_ENABLED=0 \
 		--env GOOS="linux" \
-		--env GOARCH=arm \
-		--env GOARM=$*\
+		--env GO111MODULE=on \
+		$(go_env) \
 		$(_docker_ctr) \
-		go build -tags kqeue --ldflags '$(LDFLAGS)' -o /out/minio-$(pkg_version)-linux-arm-$*
+		sh -c "go get ./... && go build -tags kqeue --ldflags '$(LDFLAGS)' -o /out/minio-$(pkg_version)-linux-$(pkg_arch)"
 
-.PHONY: pkg_%
-pkg_%:
-	sed -e "s/version=.*/version=\"$(pkg_version)\"/g" \
+.PHONY: pkg pkg_%
+pkg_arm7: pkg_arch=arm-7
+pkg_arm7: syno_arch=armada370 armada375 armada38x armadaxp alpine\/alpine4k comcerto2k monaco
+pkg_arm7: pkg
+pkg_i386: pkg_arch=i386
+pkg_i386: syno_arch="evansport"
+pkg_i386: pkg
+pkg:
+	sed -e "s/version=.*/version=\"$(pkg_version)\"/g;s/arch=.*/arch=\"$(syno_arch)\"/g" \
 		2_create_project/INFO-e > 2_create_project/INFO
 	mkdir -p 1_create_package/minio
-	cp minio-$(pkg_version)-*$* 1_create_package/minio/minio
+	cp minio-$(pkg_version)-linux-$(pkg_arch) 1_create_package/minio/minio
 	cd 1_create_package && \
 		tar cvfhz ../2_create_project/package.tgz *
 	cd 2_create_project && \
-		tar cvfz ../minio-$(pkg_version)-arm-7.spk --exclude=INFO.in *
+		tar cvfz ../minio-$(pkg_version)-$(pkg_arch).spk --exclude=INFO.in *
 	rm -f package.tgz

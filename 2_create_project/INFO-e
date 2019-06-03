@@ -1,5 +1,5 @@
 package="minio"
-arch="armada370 armada375 armada38x armadaxp alpine/alpine4k comcerto2k monaco"
+arch="<ARCH>"
 version="<VERSION>"
 description="private cloud storage"
 support_url="https://minio.io/"
