@@ -29,7 +29,7 @@ postinst ()
 
     if [[ "${MINIO_ACCESS_KEY}x" != "x" && "${MINIO_SECRET_KEY}x" != "x" ]]; then
 		cat > ${APP_DIR}/config <<EOF
-MINIO_PORT=${MINIO_PORT:-9901}
+MINIO_PORT=${MINIO_PORT:-9000}
 MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-admin}
 MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-$(openssl rand -hex 12)}
 EOF

@@ -36,7 +36,7 @@ start_daemon ()
         export MINIO_SECRET_KEY
     fi
 
-    ${minio} server data --address 0.0.0.0:${MINIO_PORT:-9901} >> ${LOG_FILE} 2>&1 &
+    ${minio} server data --address 0.0.0.0:${MINIO_PORT:-9000} >> ${LOG_FILE} 2>&1 &
     echo $! > ${PID_FILE}
 }
 
