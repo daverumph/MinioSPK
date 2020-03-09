@@ -24,8 +24,9 @@ start_daemon ()
 {
     cd ${DIR_minio}
     mkdir -p ${DIR_minio}/data
+    mkdir -p ${DIR_minio}/config
 
-    source  ${DIR_minio}/config || \
+    source  ${DIR_minio}/env || \
         echo "Unable to find configuration" > ${LOG_FILE};
 
     if [ "${MINIO_ACCESS_KEY}x" != "x" ]; then
