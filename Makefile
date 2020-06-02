@@ -4,11 +4,12 @@ GOARM = 7
 my_d = $(shell pwd -P)
 minio_src := go/src/github.com/minio/minio
 
-.PHONY: build i386 arm7
+.PHONY: build i386 arm7 arm8
 build:
-	@echo "Usage: make init; make arm7|i386"
+	@echo "Usage: make init; make arm7|arm8|i386"
 
 arm7: minio_arm7 pkg_arm7
+arm8: minio_arm8 pkg_arm8
 i386: minio_i386 pkg_i386
 
 .PHONY: clean
@@ -56,6 +57,9 @@ _docker_ctr = golang:stretch
 minio_arm7: go_env=--env GOARCH=arm --env GOARM=7
 minio_arm7: pkg_arch=arm-7
 minio_arm7: minio
+minio_arm8: go_env=--env GOARCH=arm64
+minio_arm8: pkg_arch=arm-8
+minio_arm8: minio
 minio_i386: go_env=--env GOARCH=386
 minio_i386: pkg_arch=i386
 minio_i386: minio
@@ -76,6 +80,9 @@ minio:
 pkg_arm7: pkg_arch=arm-7
 pkg_arm7: syno_arch=armada370 armada375 armada38x armadaxp alpine\/alpine4k comcerto2k monaco
 pkg_arm7: pkg
+pkg_arm8: pkg_arch=arm-8
+pkg_arm8: syno_arch=aarch64 armada37xx rtd1296
+pkg_arm8: pkg
 pkg_i386: pkg_arch=i386
 pkg_i386: syno_arch="evansport"
 pkg_i386: pkg
