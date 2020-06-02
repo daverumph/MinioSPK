@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Minio Packaging for Synology NAS 
 ==
 
@@ -55,3 +56,7 @@ Pull-Requests Accepted
 ===
 
 I promise not to be a jerk. If you improve, or add a feature, please send it my way; I'm happy to consider it. Opensource should be inclusive. 
+=======
+# MinioSPK
+Minio server for Synology NAS
+>>>>>>> c69e50092aa21d73ba74d842b013b344dd2d52e8
